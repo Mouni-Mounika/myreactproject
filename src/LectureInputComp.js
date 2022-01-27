@@ -39,8 +39,8 @@ const setEndDate = (date) =>{
         <div    id = {"section" + props.lectureObj.id} className = "sections">
             <label>Lecture {props.lecNum}: </label>
             <input   id ={"inputEle" + props.lectureObj.id} type = "text" onChange={handleInputValue} className = "lectureName" maxLength = {80} placeholder = "Enter Lecture name"  value = {lectureObj.lectureName} />
-            <DatePicker selected = {lectureObj.startDate} placeholderText = "Select start date." dateFormat = "dd/MM/yyyy" onChange = {setStartDate} showYearDropdown showMonthDropdown />
-            <DatePicker selected = {lectureObj.endDate} minDate = {lectureObj.startDate} placeholderText = "Select end date." dateFormat = "dd/MM/yyyy" onChange = {setEndDate} showYearDropdown showMonthDropdown />
+            <DatePicker selected = {lectureObj.startDate} placeholderText = "Select start date." dateFormat = "dd/MM/yyyy" onChange = {setStartDate}/>
+            <DatePicker selected = {lectureObj.endDate} minDate = {lectureObj.startDate} placeholderText = "Select end date." dateFormat = "dd/MM/yyyy" onChange = {setEndDate}/>
             <div >
                 <button  className = "Remove" onClick = {handleOnRemoveLec}>Remove</button>
                 <button  className ="saveLectureName" onClick ={handleOnSave}>Save Lecture</button>
