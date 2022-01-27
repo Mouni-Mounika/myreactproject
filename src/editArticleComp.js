@@ -1,28 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState} from "react"; 
 
 function EditArticleComp(props) {
-   
-    const[article, updateArticle] = useState(props.articleObj);
-    
-    const handleOnChange = (event) => {
-        const tempArticle = {...article,...{content: event.target.value}};
-        updateArticle(tempArticle);
-    }
-
-    const handleOnSave = (event) => {
-        const tempArticle = {...article,... {state: 'DISPLAY'}}
-        updateArticle(tempArticle);
-        props.onSave(tempArticle);
-    }
-
-    return(
-        <div>
-            <textarea id = "textAreaId" rows = "3" cols = "30" 
-            placeholder = "Enter Article" value = {article.content} onChange = {handleOnChange} ></textarea>
-            <button onClick = {handleOnSave}>Save</button>
-            <button onClick = {props.removeArticle} >Remove
-            </button>
-        </div>
+        const [objectArticle, updateArticleObj] = useState(props.articleObj)
+        const handleTextarea = (event) =>{
+                const articleObj = {...objectArticle,...{text: event.target.value}}
+                updateArticleObj( articleObj);
+        }
+        const handleSaveTextarea = () =>{
+                console.log(objectArticle);
+                const  articleObj = {...objectArticle,...{state: "DISPLAY"}};
+                updateArticleObj( articleObj);
+                console.log(articleObj);
+                props.changeArticleState(articleObj);
+        }
+        const handleCancelEdit = () =>{
+                const  articleObj = {...objectArticle,...{state: "DISPLAY"}};
+                updateArticleObj(articleObj);
+                props.changeArticleState(articleObj);
+        }
+    return (
+        
+            <div>
+            <div><label>Article: {props.articleNum}</label></div>
+            <textarea id = {objectArticle.id} rows = "3" cols = "50" onChange = {handleTextarea} value = {objectArticle.text} placeholder = "Enter text here." > </textarea>
+            <button onClick = {handleCancelEdit}>Cancel</button>
+            <button onClick = {handleSaveTextarea}>Save</button>
+            </div>
     );
-}
-export default EditArticleComp;
+  }
+  
+  export default EditArticleComp;

@@ -1,34 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from "react"; 
 
-function LectureEdit(props) {
-    const [lecture, updateLecture] = useState(props.object);
+function LectureInputComp(props) {
+  const [lectureObj, updateLectureObj] = useState(props.lectureObj);
 
-    useEffect(() => {
-        if(lecture.state === 'DISPLAY') {
-            props.onSave(lecture);
-        }
-    });
-
-    const handleOnChange = (event) => {
-        const updatedLec = {...lecture,...{name: event.target.value}}
-        updateLecture(updatedLec);
+  useEffect(()=> {
+    if(lectureObj.lectureState === 'DISPLAY')
+    {
+      props.onSave(lectureObj);
     }
-
-    const handleOnSave = (event) => {
-        const updatedLec = {...lecture,...{state: 'DISPLAY'}}
-        updateLecture(updatedLec);
-    }
-    function cancelLecture(event) {
-        props.cancel(lecture)
-    }
-    return(
-        <div id ="newLecture" >
-                <label>Lecture {props.index + 1}: </label> 
-                <input type="text" placeholder="Enter lecture name" value = {lecture.name} onChange = {handleOnChange}></input>
-                <br></br>
-                <button className = "btnRemove" onClick = {cancelLecture}>Delete</button>
-                <button type="submit" className = "saveTitle" onClick = {handleOnSave} >Save Lecture</button>
-        </div>
-    );
+  });
+  
+  function handleInputValue(event){
+    const lecture = {...lectureObj,...{lectureName:event.target.value}};
+    updateLectureObj(lecture);
+  }
+  
+  const handleOnSave = (event) =>{
+    const lecture = {...lectureObj,...{lectureState:"DISPLAY"}};
+    updateLectureObj(lecture);
+  }
+  const handleOnRemoveLec = (event) =>{
+    props.onRemoveLec(lectureObj);
 }
-export default LectureEdit;
+ 
+    return (
+      <div key = {props.lecIndex} className = "addNewLecture">
+        <div    id = {"section" + props.lectureObj.id} className = "sections">
+            <label>Lecture {props.lecNum}: </label>
+            <input   id ={"inputEle" + props.lectureObj.id} type = "text" onChange={handleInputValue} className = "lectureName" maxLength = {80} placeholder = "Enter Lecture name"  value = {lectureObj.lectureName} />
+            <div  id = {"saveAndRemoveBtn" + props.lectureObj.id} className = "saveAndCancleButtonsContainer" >
+                <button  className = "Remove" onClick = {handleOnRemoveLec}>Remove</button>
+                <button  className ="saveLectureName" onClick ={handleOnSave}>Save Lecture</button>
+            </div>
+            
+        </div>
+      </div> 
+    );
+  }
+  
+  export default LectureInputComp;

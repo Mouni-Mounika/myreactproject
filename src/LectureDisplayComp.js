@@ -1,70 +1,51 @@
-import React, { useState, useEffect} from 'react';
-import ContentList from './contentListComponet.js';
-import EditArticleComp from './editArticleComp';
-import DisplayArticle from './displayArticleComp';
+import React, {useState, useEffect} from "react"; 
+import ContentListComp from "./contentListComponent";
 
 function LectureDisplay(props) {
-    const [lecture, updateLecture] = useState(props.object);
+     const [lectureObj, updateLectureObj] = useState(props.lectureObj);
+    useEffect(()=> {
+    if(lectureObj.lectureState === 'EDIT')
+      {
+        props.onEdit(lectureObj);
+      }
+  });
 
-    useEffect(() => {
-        if(lecture.state === 'EDIT') {
-            props.onEdit(lecture);
-        }
-    });
-    
-    function removeLecture(event){
-        props.remove(lecture)
-    } 
+    const handleEditLecInput = (event) =>{
+    const lecture = {...lectureObj,...{lectureState: "EDIT"}};
+    updateLectureObj(lecture);
+    }
+    const handleOnRemoveLec = (event) =>{
+    props.onRemoveLec(lectureObj);
+    }   
 
-    function editLecture(event) {
-        const updatedLec = {...lecture,...{state: 'EDIT'}};
-        updateLecture(updatedLec);
+const setArticleStateToList = () =>{
+    const lecture = {...lectureObj,...{articleStatus: true}};
+    updateLectureObj(lecture);
+    props.onEdit(lecture);
     }
 
-    function changeArticleStatus(event) {
-        const tempLec = {...lecture,...{articleStatus: true, 
-            article:{...lecture.article, state: 'LIST'}}}
-        updateLecture(tempLec);
-        props.onEdit(tempLec);
+  const  changeArticleState = (articleArr) =>{
+    const lecture = {...lectureObj,...{article: articleArr}};
+    updateLectureObj(lecture);
+    props.onEdit(lecture);
     }
 
-    function setArticleStateEdit(event) {
-        const tempLec = {...lecture,...{article:{...lecture.article, state: 'EDIT'}}}
-        updateLecture(tempLec);
-        props.onEdit(tempLec);
-    }
-    function removeArticle(event) {
-        const tempLec = {...lecture,...{articleStatus: false,
-            article:{content:"", state: 'LIST'}}}
-        updateLecture(tempLec);
-        props.onEdit(tempLec);
-    }
-
-    function saveContent(updatedArtObj) {
-        const tempLec = {...lecture};
-        tempLec.article.content = updatedArtObj.content;
-        tempLec.article.state = updatedArtObj.state;
-        updateLecture(tempLec);
-        props.onEdit(tempLec);
-    }
-
-    return(
-        <div className = "Lecture">
-            <label>Lecture {props.index + 1}: {lecture.name} </label>
-            <button onClick = {removeLecture} >Remove</button>
-            <button onClick = {editLecture} >Edit
-            </button>
-            <button onClick = {changeArticleStatus}>Content</button>
-            {
-                lecture.articleStatus?
-                lecture.article.state === 'LIST'? <ContentList key = {lecture.id + "content"} 
-                addContent = {setArticleStateEdit} cancel = {removeArticle}/>:
-                lecture.article.state === 'EDIT'? <EditArticleComp key = {lecture.id + "content"} 
-                articleObj = {lecture.article} removeArticle = {changeArticleStatus} onSave = {saveContent}/>:
-                <DisplayArticle key = {lecture.id +"article"} content = {lecture.article.content} edit = {setArticleStateEdit} cancel = {changeArticleStatus}/>: null
-            }
-        </div>
-    );
+  const removeAtricle = () =>{
+    const lecture = {...lectureObj,...{articleStatus: false}};
+    updateLectureObj(lecture);
 }
-
-export default LectureDisplay;
+    return (
+        <div className = "addNewLecture">
+            <label>Lecture{props.lecNum}:</label>
+                <label> {lectureObj.lectureName} </label>
+                <button onClick = {handleEditLecInput}>Edit</button>
+                <button onClick = {handleOnRemoveLec}>Remove</button>
+                <button onClick = {setArticleStateToList} >Content</button>
+                {
+                    lectureObj.articleStatus && <ContentListComp key = {lectureObj.id + "articleList"} articleArr= {lectureObj.article} 
+                    onRemoveArtcile = {removeAtricle} changeArticleState = {changeArticleState} />
+                }
+        </div> 
+    );
+  }
+  export default LectureDisplay;

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import { v4 as uuidv4 } from 'uuid'; 
 import EditArticleComp from "./editArticleComp";
 import DisplayArticleComp from "./displayArticleComp";
-function ArticleListComp(props) {
+function ContentListComp(props) {
       
         const [articleArr, updateArticleArr] = useState(props.articleArr);
         
@@ -45,5 +45,4 @@ function ArticleListComp(props) {
             </div>
     );
   }
-  
-  export default ArticleListComp;
+  export default ContentListComp;
