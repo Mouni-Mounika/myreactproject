@@ -36,15 +36,19 @@ const setArticleStateToList = () =>{
 }
     return (
         <div className = "addNewLecture">
-            <label>Lecture{props.lecNum}:</label>
-                <label> {lectureObj.lectureName} </label>
-                <button onClick = {handleEditLecInput}>Edit</button>
-                <button onClick = {handleOnRemoveLec}>Remove</button>
-                <button onClick = {setArticleStateToList} >Content</button>
-                {
-                    lectureObj.articleStatus && <ContentListComp key = {lectureObj.id + "articleList"} articleArr= {lectureObj.article} 
-                    onRemoveArtcile = {removeAtricle} changeArticleState = {changeArticleState} />
-                }
+            <label>Lecture{props.lecNum}: {lectureObj.lectureName} </label>
+            <br></br>
+            <label>Start Date: {lectureObj.startDate.toString().slice(0,15)} </label>
+            <br></br>
+            <label>End Date: {lectureObj.endDate.toString().slice(0,15)} </label>
+            <br></br>
+            <button onClick = {handleEditLecInput}>Edit</button>
+            <button onClick = {handleOnRemoveLec}>Remove</button>
+            <button onClick = {setArticleStateToList} >Content</button>
+            {
+                lectureObj.articleStatus && <ContentListComp key = {lectureObj.id + "articleList"} articleArr= {lectureObj.article} 
+                onRemoveArtcile = {removeAtricle} changeArticleState = {changeArticleState} />
+            }
         </div> 
     );
   }

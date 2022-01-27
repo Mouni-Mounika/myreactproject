@@ -17,7 +17,7 @@ function App() {
   }
   function addNewLecture (event){
     updateLecture([...lectureArr, { id: generateUUID(), 
-      lectureState: "EDIT", lectureName: "", articleStatus: false, article: []}]);
+      lectureState: "EDIT", lectureName: "", startDate: "", endDate: "", articleStatus: false, article: []}]);
   }
   console.log(lectureArr);
 
